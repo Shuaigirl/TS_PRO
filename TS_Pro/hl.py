@@ -62,14 +62,20 @@ data = {
                                     "client_length": "3",
                                     "client_width": "4",
                                     "client_height": "5"
-                                }
+                                }, {
+                                    "number": "FBA16CV5TSBRU000002",
+                                    "client_weight": 13.08,
+                                    "client_length": 60,
+                                    "client_width": 52,
+                                    "client_height": 39
+                        }
                     ],
                     "declarations": [{
                                     "sku": "testsku",
                                     "name_zh": "zhongwenming",
                                     "name_en": "yingwenming",
-                                    "unit_value": 11,
-                                    "qty": 1,
+                                    "unit_value": "11",
+                                    "qty": "1",
                                     "material": "glass",
                                     "usage": "play",
                                     "brand": "",
@@ -95,7 +101,38 @@ data = {
                                     "platform": "",
                                     "amazon_ref_id": "",
                                     "parcel_number": "FBA16CV5TSBRU000001"
-                                    }]
+                                    },{
+                                    "sku": "",
+                                    "name_zh": "\u620f\u6c34\u9e2d",
+                                    "name_en": "Bath Toy",
+                                    "unit_value": "2.00",
+                                    "qty": "48",
+                                    "material": "plastic",
+                                    "usage": "entertainment",
+                                    "brand": "\u65e0",
+                                    "brand_type": "",
+                                    "model": "\u65e0",
+                                    "purchase_price": 0,
+                                    "sale_price": 0,
+                                    "sale_url": "",
+                                    "asin": "",
+                                    "fnsku": "",
+                                    "weight": 0,
+                                    "size": "",
+                                    "photo_url": [],
+                                    "hscode": "9506990000",
+                                    "duty_rate": 0,
+                                    "photos": [],
+                                    "is_battery": 0,
+                                    "is_magnetic": 0,
+                                    "battery_label": "",
+                                    "battery_description": "",
+                                    "title": "",
+                                    "description": "",
+                                    "platform": "",
+                                    "amazon_ref_id": "",
+                                    "parcel_number": "FBA16CV5TSBRU000002"
+		            }]
             }
    }
 
