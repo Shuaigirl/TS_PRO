@@ -71,7 +71,7 @@ async def HualiJson(req_json):
         client_width =parcels[i].get("client_width")
         client_height =parcels[i].get("client_height")
         data = {
-             "volume_height": client_weight, "volume_length": client_length, "volume_width": client_width, "volume_weight": client_height
+             "volume_height": client_height, "volume_length": client_length, "volume_width": client_width, "volume_weight": client_weight
         }
         parcel_data.append(data)
 
