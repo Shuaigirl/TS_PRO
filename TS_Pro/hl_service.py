@@ -62,46 +62,101 @@ async def HualiJson(req_json):
     remark = req_json['shipment']['remark']
 
     #获取parcels数据
-    number = req_json['shipment']['parcels'][0].get('number')
-    client_weight = req_json['shipment']['parcels'][0].get('client_weight')
-    client_length = req_json['shipment']['parcels'][0].get('client_length')
-    client_width = req_json['shipment']['parcels'][0].get('client_width')
-    client_height = req_json['shipment']['parcels'][0].get('client_height')
+    parcel_data = []
+    parcels = req_json['shipment']['parcels']
+    for i in range(len(parcels)):
+        number = parcels[i].get("number")
+        client_weight=parcels[i].get("client_weight")
+        client_length=parcels[i].get("client_length")
+        client_width =parcels[i].get("client_width")
+        client_height =parcels[i].get("client_height")
+        data = {
+             "volume_height": client_weight, "volume_length": client_length, "volume_width": client_width, "volume_weight": client_height
+        }
+        parcel_data.append(data)
+
     # declarations数据获取
-    sku = req_json['shipment']['declarations'][0].get('sku')
-    name_zh = req_json['shipment']['declarations'][0].get('name_zh')
-    name_en = req_json['shipment']['declarations'][0].get('name_en')
-    unit_value = req_json['shipment']['declarations'][0].get('unit_value')
-    qty = req_json['shipment']['declarations'][0].get('qty')
-    material = req_json['shipment']['declarations'][0].get('material')
-    usage = req_json['shipment']['declarations'][0].get('usage')
-    brand = req_json['shipment']['declarations'][0].get('brand')
-    brand_type = req_json['shipment']['declarations'][0].get('brand_type')
-    model = req_json['shipment']['declarations'][0].get('model')
-    purchase_price =req_json['shipment']['declarations'][0].get('purchase_price')
-    sale_price = req_json['shipment']['declarations'][0].get('sale_price')
-    sale_url = req_json['shipment']['declarations'][0].get('sale_url')
-    asin = req_json['shipment']['declarations'][0].get('asin')
-    fnsku = req_json['shipment']['declarations'][0].get('fnsku')
-    weight = req_json['shipment']['declarations'][0].get('weight')
-    size = req_json['shipment']['declarations'][0].get('size')
-    photo_url = req_json['shipment']['declarations'][0].get('photo_url')
-    hscode = req_json['shipment']['declarations'][0].get('hscode')
-    duty_rate = req_json['shipment']['declarations'][0].get('duty_rate')
-    photos = req_json['shipment']['declarations'][0].get('photos')
-    is_battery = req_json['shipment']['declarations'][0].get('is_battery')
-    is_magnetic = req_json['shipment']['declarations'][0].get('is_magnetic')
-    battery_label = req_json['shipment']['declarations'][0].get('battery_label')
-    battery_description = req_json['shipment']['declarations'][0].get('battery_description')
-    title = req_json['shipment']['declarations'][0].get('title')
-    description = req_json['shipment']['declarations'][0].get('description')
-    platform = req_json['shipment']['declarations'][0].get('description')
-    amazon_ref_id2 = req_json['shipment']['declarations'][0].get('amazon_ref_id')
-    parcel_number = req_json['shipment']['declarations'][0].get('parcel_numbe')
-    allWeight = qty*weight
-
-
-
+    declarations = req_json['shipment']['declarations']
+    d_data = []
+    for j in range(len(declarations)):
+        parcel_number = declarations[j].get("parcel_number")
+        sku = declarations[j].get("sku")
+        name_zh = declarations[j].get("name_zh")
+        name_en = declarations[j].get("name_en")
+        unit_value = float(declarations[j].get("unit_value"))
+        qty = float(declarations[j].get("qty"))
+        material = declarations[j].get("material")
+        usage = declarations[j].get("usage")
+        brand = declarations[j].get("brand")
+        brand_type = declarations[j].get("brand_type")
+        model = declarations[j].get("model")
+        sale_price = declarations[j].get("sale_price")
+        sale_url = declarations[j].get("sale_url")
+        asin = declarations[j].get("asin")
+        fnsku = declarations[j].get("fnsku")
+        weight = declarations[j].get("weight")
+        size = declarations[j].get("size")
+        photo_url = declarations[j].get("photo_url")
+        hscode = declarations[j].get("hscode")
+        duty_rate = declarations[j].get("duty_rate")
+        photos = declarations[j].get("photos")
+        is_battery = declarations[j].get("is_battery")
+        is_magnetic = declarations[j].get("is_magnetic")
+        allWeight = qty * weight
+        allunit_value = unit_value*qty
+        platform = declarations[j].get("platform")
+        d = {
+                        "invoice_amount": allunit_value,  # 申报总价值，必填
+                        "invoice_pcs": qty,  # 件数，必填
+                        "invoice_title": name_en,  # 英文品名，必填
+                        "invoice_weight": weight,  # 单件重
+                        "sku": name_zh,#中文品名
+                        "sku_code": brand_type,#配货信息
+                        "hs_code": hscode,#海关编码
+                        "transaction_url": sale_url,#销售地址
+                        "invoiceunit_code": fnsku,#申报单位
+                        "invoice_imgurl": photo_url,#图片地址
+                        "invoice_brand": brand,#品牌
+                        "invoice_rule": size,#规格
+                        "invoice_currency":declaration_currency,#申报币种
+                        "invoice_taxno": duty_rate,#税则号
+                        "origin_country": platform,#原产国
+                        "invoice_material": material,#材质
+                        "invoice_purpose": usage#用途
+            }
+        d_data.append(d)
+    # sku = req_json['shipment']['declarations'][0].get('sku')
+    # name_zh = req_json['shipment']['declarations'][0].get('name_zh')
+    # name_en = req_json['shipment']['declarations'][0].get('name_en')
+    # unit_value = req_json['shipment']['declarations'][0].get('unit_value')
+    # qty = req_json['shipment']['declarations'][0].get('qty')
+    # material = req_json['shipment']['declarations'][0].get('material')
+    # usage = req_json['shipment']['declarations'][0].get('usage')
+    # brand = req_json['shipment']['declarations'][0].get('brand')
+    # brand_type = req_json['shipment']['declarations'][0].get('brand_type')
+    # model = req_json['shipment']['declarations'][0].get('model')
+    # purchase_price =req_json['shipment']['declarations'][0].get('purchase_price')
+    # sale_price = req_json['shipment']['declarations'][0].get('sale_price')
+    # sale_url = req_json['shipment']['declarations'][0].get('sale_url')
+    # asin = req_json['shipment']['declarations'][0].get('asin')
+    # fnsku = req_json['shipment']['declarations'][0].get('fnsku')
+    # weight = req_json['shipment']['declarations'][0].get('weight')
+    # size = req_json['shipment']['declarations'][0].get('size')
+    # photo_url = req_json['shipment']['declarations'][0].get('photo_url')
+    # hscode = req_json['shipment']['declarations'][0].get('hscode')
+    # duty_rate = req_json['shipment']['declarations'][0].get('duty_rate')
+    # photos = req_json['shipment']['declarations'][0].get('photos')
+    # is_battery = req_json['shipment']['declarations'][0].get('is_battery')
+    # is_magnetic = req_json['shipment']['declarations'][0].get('is_magnetic')
+    # battery_label = req_json['shipment']['declarations'][0].get('battery_label')
+    # battery_description = req_json['shipment']['declarations'][0].get('battery_description')
+    # title = req_json['shipment']['declarations'][0].get('title')
+    # description = req_json['shipment']['declarations'][0].get('description')
+    # platform = req_json['shipment']['declarations'][0].get('description')
+    # amazon_ref_id2 = req_json['shipment']['declarations'][0].get('amazon_ref_id')
+    # parcel_number = req_json['shipment']['declarations'][0].get('parcel_numbe')
+    # allWeight = qty*weight
+    #
 
     data = {
             "buyerid": store_id,
@@ -132,39 +187,16 @@ async def HualiJson(req_json):
             "customer_id": number,  # 客户ID，必填
             "customer_userid": sku,  # 登录人ID，必填
             "order_customerinvoicecode": model,  # 原单号，必填
-            "product_id": amazon_ref_id2,  # 运输方式ID，必填
+            "product_id": amazon_ref_id,  # 运输方式ID，必填
             "weight": allWeight,  # 总重，选填，如果sku上有单重可不填该项
             "product_imagepath": photos,  # 图片地址，多图片地址用分号隔开
             "order_transactionurl": sale_url,  # 产品销售地址
             "order_cargoamount": sale_price,  # 选填；用于DHL/FEDEX运费；或用于白关申报（订单实际金额，特殊渠道使用）；或其他用途
-            "order_insurance": purchase_price,  # 保险金额
+            "order_insurance": 0,  # 保险金额
             "cargo_type": parcel_number,  #包裹类型，P代表包裹，D代表文件，B代表PAK袋
             "order_customnote": client_reference, # 订单
-            "orderInvoiceParam": [{
-                        "invoice_amount": unit_value,  # 申报总价值，必填
-                        "invoice_pcs": qty,  # 件数，必填
-                        "invoice_title": name_en,  # 英文品名，必填
-                        "invoice_weight": weight,  # 单件重
-                        "sku": name_zh,#中文品名
-                        "sku_code": brand_type,#配货信息
-                        "hs_code": hscode,#海关编码
-                        "transaction_url": sale_url,#销售地址
-                        "invoiceunit_code": fnsku,#申报单位
-                        "invoice_imgurl": photo_url,#图片地址
-                        "invoice_brand": brand,#品牌
-                        "invoice_rule": size,#规格
-                        "invoice_currency":declaration_currency,#申报币种
-                        "invoice_taxno": duty_rate,#税则号
-                        "origin_country": platform,#原产国
-                        "invoice_material": material,#材质
-                        "invoice_purpose": usage#用途
-            }],
-            "orderVolumeParam": [{
-                        "volume_height": client_height,  # 高，单位CM
-                        "volume_length": client_length,  # 长，单位CM
-                        "volume_width": client_width,  # 宽，单位CM
-                        "volume_weight": client_weight  # 实重
-            }]
+            "orderInvoiceParam":d_data ,
+            "orderVolumeParam": parcel_data
 }
     return data
 
