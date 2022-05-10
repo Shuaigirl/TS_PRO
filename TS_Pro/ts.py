@@ -139,4 +139,4 @@ data = {
 
 res = requests.post(url, json=data)
 print(res.json())
-print(type(res.json()))
+
